@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Портфолио разработчика</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #db9e9e;
+            margin: 0;
+            padding: 20px;
+            color: #5c3333;
+        }
+        .header {
+            background-color: #453535;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            border-radius: 5px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .project {
+            padding: 15px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        .project:last-child {
+            border-bottom: none;
+        }
+        .project a {
+            color: #8a7575;
+            text-decoration: none;
+        }
+        .project a:hover {
+            text-decoration: underline;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #453535;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #8a7575;
+        }
+        .delete-btn {
+            background-color: #453535;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 10px;
+            display: inline-block;
+        }
+        .delete-btn:hover {
+            background-color: #ff9eb5;
+        }
+        .clear-form {
+            margin-top: 30px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Мое портфолио</h1>
+        </div>
+
+        <h2>Добавить проект</h2>
+        <form action="/add" method="POST">
+            <div class="form-group">
+                <input type="text" name="title" placeholder="Название проекта" required>
+            </div>
+            <div class="form-group">
+                <input type="text" name="link" placeholder="Ссылка на репозиторий" required>
+            </div>
+            <button type="submit">Добавить</button>
+        </form>
+
+        <h2>Мои проекты</h2>
+        {% for project in projects %}
+        <div class="project">
+            <h3>{{ project.title }}</h3>
+            <a href="{{ project.link }}" target="_blank">{{ project.link }}</a>
+            <a href="/delete/{{ project.id }}" class="delete-btn" onclick="return confirm('Удалить проект?')">Удалить</a>
+        </div>
+        {% else %}
+        <p>Пока нет добавленных проектов</p>
+        {% endfor %}
+
+        <form action="/clear" method="POST" class="clear-form">
+            <button type="submit" class="delete-btn" onclick="return confirm('Удалить ВСЕ проекты? Это действие нельзя отменить!')">
+                Очистить все проекты (Clear)
+            </button>
+        </form>
+    </div>
+</body>
+</html>
